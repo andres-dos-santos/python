@@ -39,3 +39,5 @@ def extern():
   print("Dentro da externa: ", x)
 
 extern()
+
+# ⚠️ CUIDADO COM O `UnboundLocalError`: O erro aparece quando você tenta usar uma variável local antes de ela ter um valor atribuído dentro do escopo da função.
