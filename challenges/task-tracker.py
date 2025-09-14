@@ -2,25 +2,25 @@
 tasks = []
 menu_option = False
 
-def create_task():
+def create_task(task_name):
   task = {
-    "name": input("Nome: "),
+    "name": task_name,
     "id": len(tasks) + 1,
     "done": False
   }
 
   tasks.append(task)
 
-def get_task_by_id(id):
+def get_task():
   task_id = input(": ")
   print("----")
 
-  task_id = int(id)
   finded_task = {}
 
-  for task in tasks:
-    if (task["id"] == task_id):
-      finded_task = task
+  for i in tasks:
+    if (i["id"] == int(task_id)):
+      finded_task = i
+
   return finded_task
 
 def remove_task(task):
@@ -28,52 +28,48 @@ def remove_task(task):
     if (i["id"] == task["id"]):
       tasks.remove(task)
 
-def list_tasks():
+def get_all_tasks():
   print("----")
   for i in tasks:
     is_done = "✅" if i["done"] else  "❌"
     print(i["id"], ".", is_done, ":", i["name"])
 
-  task = get_task_by_id(i["id"])
-  task_action = input(f"R para remover / U para atualizar ({task["name"]}): ")
+def actions():
+  get_all_tasks()
+
+  task = get_task()
+  
+  task_action = input(f"({task["name"]}) R to remove / D to done / Press a new task name: ")
   print("----")
 
-  if (task_action == "r" or task_action == "R"):
-    remove_task(task)
+  remove_action = task_action == "r" or task_action == "R"
+  done_action = task_action == "d" or task_action == "D"
 
-  if (task_action == "u" or task_action == "U"):
-    update_task(task["id"])
+  if (not remove_action and not done_action):
+    task["name"] = task_action
+  
+  if (remove_action):
+    remove_task(task["id"])
+
+  if (done_action):
+    task["done"] = True if task["done"] == False else  False
 
 def remove_task(id):
   for task in tasks:
     if (task["id"] == id):
       tasks.remove(task)
 
-def update_task(id):
-  for i in tasks:
-    if (i["id"] == id):
-      new_task_name = input(f"Digite o novo nome da tarefa, padrão ({i["name"]}): ") or i["name"]
-      i["name"] = new_task_name
-
-      new_task_done = input(f"V para dar checked / F para dar unchecked") or i["done"]
-      i["done"] = True if  new_task_done == "v" else  False
+print("L / para listar todas as tarefas")
+print("")
 
 while True:
-  menu_option = input("(N) para nova tarefa / (L) para ver todas: ")
+  action = input(f"{len(tasks) + 1} [or Enter]: ")
+  
+  if (action == ""):
+      actions()
 
-  create_task_menu_option = menu_option == "n" or menu_option == "N"
-  list_task_menu_option = menu_option == "l" or menu_option == "L"
+  create_task(task_name = action)
 
-  if (create_task_menu_option):
-    create_task()
-
-  if (list_task_menu_option):
-    list_tasks()
-
-# ---
-
-# Mark a task as in progress or done
-# List all tasks
 # List all tasks that are done
 # List all tasks that are not done
 # List all tasks that are in progress
