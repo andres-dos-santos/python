@@ -1,6 +1,4 @@
-# Add, Update, and Delete tasks
 tasks = []
-menu_option = False
 
 def create_task(task_name):
   task = {
